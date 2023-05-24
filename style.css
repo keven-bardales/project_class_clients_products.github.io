@@ -1,0 +1,6 @@
+div:not(.form_input, #formLoginContainer) {
+  height: 100px;
+  background: violet;
+  margin-top: 10px;
+  cursor: pointer;
+}
