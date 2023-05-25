@@ -1,56 +1,73 @@
-/*HTML ELEMENTS*/
-const loginAdminSection = document.getElementById('loginAdmin');
-const form_login_inputs = document.querySelectorAll('#form_login_admin input');
-const admin_Page = document.getElementById('admin_Page');
-const register_formPage = document.getElementById('register_formPage');
-const register_form = document.getElementById('registerForm');
-const register_form_inputs = document.querySelectorAll('#registerForm input');
-const update_formPage = document.getElementById('update_formPage');
+/*ELEMENTOS HTML*/
+const inicioSesionAdmin = document.getElementById('inicioSesionAdmin');
+const admin_sesion_inputs = document.querySelectorAll(
+  '#form_sesion_admin input'
+);
+const pagina_admin = document.getElementById('pagina_admin');
+const pagina_form_registrar = document.getElementById('pagina_form_registrar');
+const form_registrar = document.getElementById('form_registrar');
+const inputs_registrar_usuario = document.querySelectorAll(
+  '#form_registrar input'
+);
+const pagina_editar_usuario = document.getElementById('pagina_editar_usuario');
 
-/*HTML ELEMENTS ENDS*/
+/*FIN ELEMENTOS HTML*/
 
-/*DISPLAY INITIAL VALUES*/
-displayChange(admin_Page, disp.none);
-displayChange(register_formPage, disp.none);
-displayChange(update_formPage, disp.none);
+/*VALOR INICIAL DISPLAY DE LAS PAGINAS*/
+cambiarDisplay(pagina_admin, disp.none);
+cambiarDisplay(pagina_form_registrar, disp.none);
+cambiarDisplay(pagina_editar_usuario, disp.none);
 /*DISPLAY INITIAL ENDS*/
 
-/**FUNCTION TO GET ALL USERS */
-getUsers('loginAdmin');
+/**FUNCION PARA OBTENER TODOS LOS USUARIOS RECIBE COMO PARAMETRO
+ * LA SECCION DONDE SE MOSTRARA LA TABLA */
+getusuarios('inicioSesionAdmin');
 
-/**LOGIN BUTTON ON CLICK INVOKES VALIDATE USER FUNCTION
- AND CREATES A CREDENTIALS OBJECT TO SEND TO THE FUNCTION AS PARAMETER
+/**EL BOTON LOGIN LLAMA UNA FUNCION VALIDAR USUARIO
+ * RECIBE COMO PARAMETRO UN OBJETO CON USUARIO Y CONTRASENA
+ * ESA FUNCION NOS LLEVA AL INICIO SI EL USUARIO EXISTE
  */
-document.getElementById('loginButton').addEventListener('click', (event) => {
-  event.preventDefault();
-  let user = form_login_inputs[0].value;
-  let password = form_login_inputs[1].value;
-  let credentials = { user, password };
-  validateUser(credentials);
+
+/**LOGIN BUTTON */
+document
+  .getElementById('admin_sesion_boton')
+  .addEventListener('click', (event) => {
+    event.preventDefault();
+    let username = admin_sesion_inputs[0].value;
+    let password = admin_sesion_inputs[1].value;
+    let credenciales = { username, password };
+    validarUsuario(credenciales);
+  });
+
+let registrarUsuario = document.getElementById('registrarUsuario');
+
+/*AL SELECCIONAR LA OPCION DE REGISTRAR NOS LLEVA A ESA PAGINA*/
+registrarUsuario.addEventListener('click', function () {
+  cambiarDisplay(pagina_form_registrar, disp.block, pagina_admin, disp.none);
 });
 
-let optionRegisterUser = document.getElementById('registrarUsuario');
-
-optionRegisterUser.addEventListener('click', function () {
-  displayChange(register_formPage, disp.block, admin_Page, disp.none);
-});
-
-let register_button = document.getElementById('register_button');
+let register_button = document.getElementById('boton_registrar');
 
 register_button.addEventListener('click', function (event) {
   event.preventDefault();
-  let user = {
+  let usuario = {
     username: undefined,
     password: undefined,
     nombre: undefined,
     email: undefined,
     cargo: undefined,
   };
-  let keys = Object.keys(user);
+  let keys = Object.keys(usuario);
   register_form_inputs.forEach((input, index) => {
-    user[keys[index]] = input.value;
+    usuario[keys[index]] = input.value;
   });
-  createUser(user);
+  crearUsuario(user);
+});
+
+let editarUsuario = document.getElementById('editarUsuario');
+
+editarUsuario.addEventListener('click', function () {
+  cambiarDisplay(pagina_admin, disp.none, pagina_editar_usuario, disp.block);
 });
 
 /* let user = {

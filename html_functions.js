@@ -9,7 +9,7 @@ function displayState(element) {
   }
 }
 
-function displayChange(element, value, element2, value2) {
+function cambiarDisplay(element, value, element2, value2) {
   element.style.display = value;
   if (element2 && value2) {
     element2.style.display = value2;
@@ -30,8 +30,8 @@ function checkStatus() {
 /*This function receives the api response that is 0 if its an error
 or it receivs the user if it exists */
 
-function loadUsersTable(GetUsersResponse, sectionToAppend) {
-  const users = GetUsersResponse.usuarios;
+function loadTablaUsuarios(GetResponseUsuarios, sectionToAppend) {
+  const users = GetResponseUsuarios.usuarios;
   const keys = Object.keys(users[0]);
   let table = document.createElement('table');
   let thead = document.createElement('thead');
@@ -66,15 +66,16 @@ function loadUsersTable(GetUsersResponse, sectionToAppend) {
   /*  users.forEach((user) => {}); */
 }
 
-function userLoginLoad(userApiResponse) {
-  let isValidated = userApiResponse != 0 ? true : false;
+function usuarioCargarInicioSesion(usuarioApiResponse) {
+  console.log(usuarioApiResponse);
+  let isValidated = usuarioApiResponse != 0 ? true : false;
   if (isValidated) {
-    let message = `Bienvenido ${userApiResponse.username}`;
-    console.log(message);
-    displayChange(loginAdminSection, disp.none, admin_Page, disp.block);
+    let mensaje = `Bienvenido ${usuarioApiResponse.username}`;
+    console.log(mensaje);
+    cambiarDisplay(inicioSesionAdmin, disp.none, pagina_admin, disp.block);
   } else {
-    form_login_inputs[0].setCustomValidity('user does not exist');
-    form_login_inputs[0].reportValidity();
+    admin_sesion_inputs[0].setCustomValidity('user does not exist');
+    admin_sesion_inputs[0].reportValidity();
     console.log('no existe');
   }
 }
@@ -82,20 +83,20 @@ function userLoginLoad(userApiResponse) {
 /**This function receives the api response if it exists it shows api response
  * if it does not exist console logs negation of it
  */
-function registerUserConfirmation(userApiResponse) {
-  let userNotExists = userApiResponse != 0 ? true : false;
-  if (userNotExists) {
-    console.log(userApiResponse);
-    register_form.reset();
+function registrarUsuarioConfirmar(usuarioApiResponse) {
+  let usuarioNoExiste = usuarioApiResponse != 0 ? true : false;
+  if (usuarioNoExiste) {
+    console.log(usuarioApiResponse);
+    form_registrar.reset();
   } else {
     console.log('usuario ya existe');
   }
 }
 
 /**If the response is not 0 prints a  confirmation message */
-function updateUserConfirmation(userApiResponse) {
-  let userWasUpdated = userApiResponse != 0 ? true : false;
-  if (userWasUpdated) {
+function actualizarUsuarioConfirmar(usuarioApiResponse) {
+  let usuarioActualizado = usuarioApiResponse != 0 ? true : false;
+  if (usuarioActualizado) {
     console.log('user has been updated succesfully');
   } else {
     console.log('user could not be updated');
