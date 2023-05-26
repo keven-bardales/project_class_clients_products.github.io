@@ -1,54 +1,71 @@
-/**Objeto con las funciones de la api recibe
- * cada una como parametro objeto categoria que vendra
- * con los respectivos parametros para ejecutar la funcion
- * en la api
+/**
+ * Objeto que contiene funciones relacionadas con las operaciones de categorías en la API.
+ * Cada función recibe un objeto `categoria` con los parámetros respectivos para ejecutar la función en la API.
  */
 const categoriasFunc = {
+  /**
+   * Obtiene la lista de categorías.
+   * @returns {string} - La cadena de consulta correspondiente a la operación.
+   */
+  listaCategorias: function () {
+    return `&op=categorias`;
+  },
+  /**
+   * Crea una nueva categoría.
+   * @param {objeto} categoria - nombre, img
+   * @returns {string} - La cadena de fetch correspondiente a la operación.
+   */
   crear: function (categoria) {
     const { nombre, img } = categoria;
     return `&op=create_categoria&nombre=${nombre}&img=${img}`;
   },
-  update: function (categoria) {
+
+  /**
+   * Actualiza los detalles de una categoría existente.
+   * @param {objeto} categoria -nombre, img, id
+   * @returns {string} - La cadena de fetch correspondiente a la operación.
+   */
+  actualizar: function (categoria) {
     const { nombre, img, id } = categoria;
     return `&op=update_categoria&nombre=${nombre}&img=${img}&id=${id}`;
   },
+
+  /**
+   * Activa una categoría.
+   * @param {objeto} categoria -id
+   * @returns {string} - La cadena de fetch correspondiente a la operación.
+   */
   activar: function (categoria) {
     const { id } = categoria;
     return `&op=categoria_alta&id=${id}`;
   },
+
+  /**
+   * Desactiva una categoría.
+   * @param {objeto} categoria -id
+   * @returns {string} - La cadena de fetch correspondiente a la operación.
+   */
   desactivar: function (categoria) {
+    const { id } = categoria;
     return `&op=categoria_baja&id=${id}`;
   },
 };
 
-/**FUNCIONES FETCH PARA CADA FUNCION DE LA API EN CATEGORIAS */
-
-function apiCrearCategoria(categoria) {
-  return fetch(`${apiUrl}${token}${categoriasFunc.crear(categoria)}`, {
-    method: 'GET',
-  });
+/**@param {objeto} idHtml */
+function getCategorias(idHtml) {
+  llamadoApi(categoriasFunc.listaCategorias(), 'GET').then(
+    (categoriaApiResponse) => {
+      categoriaApiResponse.json().then((categoriaApiResponse) => {
+        let sectionToAppend = document.getElementById(idHtml);
+        cargaTablaObjeto(categoriaApiResponse, sectionToAppend);
+      });
+    }
+  );
 }
 
-function apiActualizarCategoria(categoria) {
-  return fetch(`${apiUrl}${token}${categoriasFunc.update(categoria)}`, {
-    method: 'POST',
-  });
-}
-
-function apiActivarCategoria(categoria) {
-  return fetch(`${apiUrl}${token}${categoriasFunc.activar(categoria)}`, {
-    method: 'POST',
-  });
-}
-
-function apiDesactivarCategoria(categoria) {
-  return fetch(`${apiUrl}${token}${categoriasFunc.desactivar(categoria)}`, {
-    method: 'POST',
-  });
-}
-
+/**@param {objeto} categoria -nombre, img */
 function crearCategoria(categoria) {
-  apiCrearCategoria(categoria).then((categoriaApiResponse) => {
+  llamadoApi(categoriasFunc.crear(categoria)).then((categoriaApiResponse) => {
     categoriaApiResponse
       .json()
       .then((categoriaApiResponse) => {
@@ -58,4 +75,50 @@ function crearCategoria(categoria) {
         console.log(error);
       });
   });
+}
+
+/**@param {objeto} categoria -nombre, img, id*/
+function actualizarCategoria(categoria) {
+  llamadoApi(categoriasFunc.actualizar(categoria)).then(
+    (categoriaApiResponse) => {
+      categoriaApiResponse
+        .json()
+        .then((categoriaApiResponse) => {
+          console.log(categoriaApiResponse);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  );
+}
+
+/**@param {objeto} categoria -id*/
+function activarCategoria(categoria) {
+  llamadoApi(categoriasFunc.activar(categoria)).then((categoriaApiResponse) => {
+    categoriaApiResponse
+      .json()
+      .then((categoriaApiResponse) => {
+        console.log(categoriaApiResponse);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  });
+}
+
+/**@param {objeto} categoria -id*/
+function desactivarCategoria(categoria) {
+  llamadoApi(categoriasFunc.desactivar(categoria)).then(
+    (categoriaApiResponse) => {
+      categoriaApiResponse
+        .json()
+        .then((categoriaApiResponse) => {
+          console.log(categoriaApiResponse);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  );
 }

@@ -13,20 +13,24 @@ const pagina_editar_usuario = document.getElementById('pagina_editar_usuario');
 
 /*FIN ELEMENTOS HTML*/
 
+/* llamadoApi(usuariosFunc.listaUsuarios(), 'GET')
+  .then((response) =>
+    response.json().then((response) => {
+      cargaTablaObjeto(response, inicioSesionAdmin);
+      return llamadoApi(categoriasFunc.listaCategorias(), 'GET');
+    })
+  )
+  .then((response) => response.json())
+  .then((response) => {
+    cargaTablaObjeto(response, inicioSesionAdmin);
+    console.log(response);
+  }); */
+
 /*VALOR INICIAL DISPLAY DE LAS PAGINAS*/
 cambiarDisplay(pagina_admin, disp.none);
 cambiarDisplay(pagina_form_registrar, disp.none);
 cambiarDisplay(pagina_editar_usuario, disp.none);
 /*DISPLAY INITIAL ENDS*/
-
-/**FUNCION PARA OBTENER TODOS LOS USUARIOS RECIBE COMO PARAMETRO
- * LA SECCION DONDE SE MOSTRARA LA TABLA */
-getusuarios('inicioSesionAdmin');
-
-/**EL BOTON LOGIN LLAMA UNA FUNCION VALIDAR USUARIO
- * RECIBE COMO PARAMETRO UN OBJETO CON USUARIO Y CONTRASENA
- * ESA FUNCION NOS LLEVA AL INICIO SI EL USUARIO EXISTE
- */
 
 /**LOGIN BUTTON */
 document
@@ -46,9 +50,9 @@ registrarUsuario.addEventListener('click', function () {
   cambiarDisplay(pagina_form_registrar, disp.block, pagina_admin, disp.none);
 });
 
-let register_button = document.getElementById('boton_registrar');
+let boton_registrar = document.getElementById('boton_registrar');
 
-register_button.addEventListener('click', function (event) {
+boton_registrar.addEventListener('click', function (event) {
   event.preventDefault();
   let usuario = {
     username: undefined,
@@ -64,17 +68,29 @@ register_button.addEventListener('click', function (event) {
   crearUsuario(user);
 });
 
-let editarUsuario = document.getElementById('editarUsuario');
+let boton_editar_Usuario = document.getElementById('boton_editar_Usuario');
 
-editarUsuario.addEventListener('click', function () {
+boton_editar_Usuario.addEventListener('click', function () {
   cambiarDisplay(pagina_admin, disp.none, pagina_editar_usuario, disp.block);
 });
 
-/* let user = {
-  nombre: 'keven nuevo',
-  email: 'newemail@gmail.com',
-  cargo: '1',
-  id: 707,
-};
+llamadoApi(productosFunc.listaProductos()).then((productosResponse) => {
+  productosResponse.json().then((productosResponse) => {
+    console.log('productos');
+    console.log(productosResponse.productos);
+  });
+});
 
-updateUser(user); */
+llamadoApi(pedidosFunc.listaPedidos()).then((pedidosResponse) => {
+  pedidosResponse.json().then((pedidosResponse) => {
+    console.log('pedidos');
+    console.log(pedidosResponse.pedidos);
+  });
+});
+
+llamadoApi(chatBotFunc.listaChats()).then((chatsResponse) => {
+  chatsResponse.json().then((chatsResponse) => {
+    console.log('chats');
+    console.log(chatsResponse);
+  });
+});

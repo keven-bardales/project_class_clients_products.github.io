@@ -4,3 +4,7 @@ div:not(.form_input, #formInicioSesionContenedor) {
   margin-top: 10px;
   cursor: pointer;
 }
+
+img {
+  width: 80px;
+}
