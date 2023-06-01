@@ -70,6 +70,7 @@ function crearCategoria(categoria) {
       .json()
       .then((categoriaApiResponse) => {
         console.log(categoriaApiResponse);
+        crearCategoriaConfirmar(categoriaApiResponse);
       })
       .catch((error) => {
         console.log(error);
@@ -85,6 +86,7 @@ function actualizarCategoria(categoria) {
         .json()
         .then((categoriaApiResponse) => {
           console.log(categoriaApiResponse);
+          ActualizarCategoriaConfirmar(categoriaApiResponse);
         })
         .catch((error) => {
           console.log(error);

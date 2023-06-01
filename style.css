@@ -1,4 +1,4 @@
-div:not(.form_input, #formInicioSesionContenedor) {
+#pagina_admin > div:not(.form_input, #formInicioSesionContenedor) {
   height: 100px;
   background: violet;
   margin-top: 10px;

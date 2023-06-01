@@ -22,9 +22,9 @@ function displayState(elemento) {
 /**
  * Esta funcion puede recibir dos elementos y cambiarles su valor utilizando
  * el objeto disp y su valor (block, none, flex) o puede pasarse el valor en string
- * @param {HTMLElement} element
+ * @param {HTMLElement} elemento
  * @param {string} value
- * @param {HTMLElement} element2
+ * @param {HTMLElement} elemento2
  * @param {string} value2
  */
 function cambiarDisplay(elemento, value, elemento2, value2) {
@@ -56,6 +56,7 @@ function llamadoApi(apiFuncion, metodo) {
  * @param {HTMLElement} sectionToAppend
  */
 function cargaTablaObjeto(apiResponse, sectionToAppend) {
+  sectionToAppend.innerHTML = '';
   /**Obtenemos el valor de las llaves de la respuesta de la api */
   let keysApiResponse = Object.keys(apiResponse);
   /**Asignamos a una variable el valor de la primera llave que contiene el arreglo de objetos */
@@ -105,6 +106,15 @@ function cargaTablaObjeto(apiResponse, sectionToAppend) {
   sectionToAppend.append(table);
 }
 
+function obtenerValoresDeInputs(objeto, inputs) {
+  let keys = Object.keys(objeto);
+  inputs.forEach((input, index) => {
+    objeto[keys[index]] = input.value;
+  });
+
+  return objeto;
+}
+
 /**Recibe la respuesta de la api si el usuario isValidated osea si la response es distinto de 0
  * la variable es true y se muestra mensaje de bienvenida sino el usuario no existe
  * @param {JSON} usuarioApiResponse
@@ -113,9 +123,19 @@ function usuarioCargarInicioSesion(usuarioApiResponse) {
   console.log(usuarioApiResponse);
   let isValidated = usuarioApiResponse != 0 ? true : false;
   if (isValidated) {
-    let mensaje = `Bienvenido ${usuarioApiResponse.username}`;
-    console.log(mensaje);
+    let mensaje = `Bienvenido ${usuarioApiResponse.username}`; // crear en localstorage el cargo
+    let tipoUsuario = usuarioApiResponse.cargo;
+
+    if (tipoUsuario == 3) {
+      return console.log('es un cliente no tiene permisos para iniciar sesion');
+    }
+
+    if (tipoUsuario != 1) {
+      ocultarOpcionesAdmin();
+    }
     cambiarDisplay(inicioSesionAdmin, disp.none, pagina_admin, disp.block);
+
+    actualizarSeccionActual(inicioSesionAdmin, pagina_admin);
   } else {
     admin_sesion_inputs[0].setCustomValidity(
       'usuario o contraseña incorrectos'
@@ -154,3 +174,87 @@ function actualizarUsuarioConfirmar(usuarioApiResponse) {
     console.log('el usuario no pudo ser actualizado');
   }
 }
+
+function actualizarSeccionActual(sectionAntes, sectionDespues) {
+  sectionAtras = sectionAntes;
+  sectionActual = sectionDespues;
+}
+
+function crearCategoriaConfirmar(usuarioApiResponse) {
+  let categoriaCreada = usuarioApiResponse != 0 ? true : false;
+  if (categoriaCreada) {
+    console.log('categoria creada con exito');
+  } else {
+    console.log('Categoria no pudo ser creada');
+  }
+}
+
+function ActualizarCategoriaConfirmar(categoriaApiResponse) {
+  let categoriaActualizada = categoriaApiResponse != 0 ? true : false;
+  if (categoriaActualizada) {
+    console.log('categoria actualizada con exito');
+  } else {
+    console.log('categoria no ha sido actualizada');
+  }
+}
+
+function actualizarChatConfirmar(chatApiResponse) {
+  let chatActualizado = chatApiResponse != 0 ? true : false;
+  if (chatActualizado) {
+    console.log('chat actualizado con exito');
+  } else {
+    console.log('no se puedo actualizar el chat');
+  }
+}
+
+function crearChatConfirmar(chatApiResponse) {
+  let chatCreado = chatApiResponse != 0 ? true : false;
+  if (chatCreado) {
+    console.log('El chat ha sido creado con exito');
+  } else {
+    console.log('el chat no se ha podido crear');
+  }
+}
+
+function actualizarProductoConfirmar(productoApiResponse) {
+  let productoActualizado = productoApiResponse != 0 ? true : false;
+  if (productoActualizado) {
+    console.log('producto actualizado con exito');
+  } else {
+    console.log('el producto no ha sido actualizado');
+  }
+}
+
+function crearProductoConfirmar(productoApiResponse) {
+  let productoCreado = productoApiResponse != 0 ? true : false;
+  if (productoCreado) {
+    console.log('producto crado con exito');
+  } else {
+    console.log('hubo un problema al crear el producto');
+  }
+}
+
+function ocultarOpcionesAdmin() {
+  let opcionesAdmin = document.querySelectorAll('.opcionAdmin');
+  opcionesAdmin.forEach((opcionAdmin) => {
+    cambiarDisplay(opcionAdmin, disp.none);
+  });
+}
+
+const divEjemplo = document.getElementById('ejemplo');
+
+const botonagregarContenido = document.getElementById('agregarContenido');
+
+function getHtml() {
+  fetch('http://127.0.0.1:5500/pages/ejemplo.html')
+    .then((response) => response.text())
+    .then((data) => {
+      console.log(data);
+      divEjemplo.innerHTML = data;
+    });
+}
+
+botonagregarContenido.addEventListener('click', function (event) {
+  event.preventDefault();
+  getHtml();
+});

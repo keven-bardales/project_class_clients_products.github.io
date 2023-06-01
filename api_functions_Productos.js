@@ -96,3 +96,78 @@ const chatBotFunc = {
     return `&op=update_chat&palabra=${palabra}&respuesta=${respuesta}&id=${id}`;
   },
 };
+
+function getProductos() {
+  llamadoApi(productosFunc.listaProductos(), 'GET').then(
+    (productoApiResponse) =>
+      productoApiResponse.json().then((productoApiResponse) => {
+        console.log(productoApiResponse);
+      })
+  );
+}
+
+function crearProducto(producto) {
+  llamadoApi(productosFunc.crear(producto))
+    .then((productoApiResponse) => {
+      productoApiResponse.json().then((productoApiResponse) => {
+        crearProductoConfirmar(productoApiResponse);
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+function actualizarProductos(producto) {
+  llamadoApi(productosFunc.actualizar(producto)).then((productoApiResponse) => {
+    productoApiResponse.json().then((productoApiResponse) => {
+      actualizarProductoConfirmar(productoApiResponse);
+    });
+  });
+}
+
+/** EJEMPLO DE PRODUCTO
+ * 0: Object { id: "1", sku: "P001", nombre: "El principito", … }
+​​​
+categoria: "11"
+​​​
+descripcion: "Es el libro de un principito"
+​​​
+estado: "1"
+​​​
+id: "1"
+​​​
+imagen: "https://m.media-amazon.com/images/I/71AVK5VIAzL._AC_UF1000,1000_QL80_.jpg"
+​​​
+inventario: "60"
+​​​
+nombre: "El principito"
+​​​
+precio: "199"
+​​​
+sku: "P001"
+ */
+
+function getPedidos() {
+  llamadoApi(pedidosFunc.listaPedidos()).then((pedidosApiResponse) => {
+    pedidosApiResponse.json((pedidosApiResponse) => {
+      console.log(pedidosApiResponse);
+    });
+  });
+}
+
+function actualizarChat(chat) {
+  llamadoApi(chatBotFunc.actualizarChat(chat)).then((chatApiResponse) => {
+    chatApiResponse.json().then((chatApiResponse) => {
+      actualizarChatConfirmar(chatApiResponse);
+    });
+  });
+}
+
+function crearChat(chat) {
+  llamadoApi(chatBotFunc.crear(chat)).then((chatApiResponse) => {
+    chatApiResponse.json().then((chatApiResponse) => {
+      crearChatConfirmar(chatApiResponse);
+    });
+  });
+}

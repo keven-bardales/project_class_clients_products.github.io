@@ -54,7 +54,7 @@ function getUsuarios(idHtml) {
   llamadoApi(usuariosFunc.listaUsuarios(), 'GET').then((GetusuariosResponse) =>
     GetusuariosResponse.json().then((GetusuariosResponse) => {
       let sectionToAppend = document.getElementById(idHtml);
-      cargaTablaObjeto(GetusuariosResponse, sectionToAppend);
+      cargaTablaObjeto(GetusuariosResponse, 'editarUsuarioTabla');
     })
   );
 }
@@ -70,10 +70,16 @@ function crearUsuario(usuario) {
 
 /**@param  {objeto}  usuario	nombre, email, cargo, id*/
 function actualizarUsuario(usuario) {
+  console.log('actualizando usuario');
   llamadoApi(usuariosFunc.actualizar(usuario)).then((usuarioApiResponse) =>
-    usuarioApiResponse.json().then((usuarioApiResponse) => {
-      actualizarUsuarioConfirmar(usuarioApiResponse);
-    })
+    usuarioApiResponse
+      .json()
+      .then((usuarioApiResponse) => {
+        actualizarUsuarioConfirmar(usuarioApiResponse);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
   );
 }
 
@@ -86,7 +92,8 @@ function validarUsuario(credenciales) {
         usuarioCargarInicioSesion(usuarioApiResponse);
       })
       .catch((error) => {
-        alert(error + ' usuario no existe');
+        console.log(error);
+        console.log(error + ' usuario no existe promesa fallida');
       })
   );
 }
