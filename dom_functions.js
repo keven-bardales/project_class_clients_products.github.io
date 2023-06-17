@@ -3,6 +3,7 @@
  * display puede ser flex, block, o none
  */
 const disp = { none: 'none', block: 'block', flex: 'flex' };
+const modalMensaje = document.getElementById('mensajeUsuario');
 
 /**GENERAL FUNCTIONS */
 
@@ -115,6 +116,13 @@ function obtenerValoresDeInputs(objeto, inputs) {
   return objeto;
 }
 
+function mostrarMensaje(mensaje) {
+  let mensajeModal = document.querySelector('#mensajeUsuario p');
+  mensajeModal.innerHTML = mensaje;
+  console.log(mensajeModal);
+  modalMensaje.showModal();
+}
+
 /**Recibe la respuesta de la api si el usuario isValidated osea si la response es distinto de 0
  * la variable es true y se muestra mensaje de bienvenida sino el usuario no existe
  * @param {JSON} usuarioApiResponse
@@ -123,11 +131,13 @@ function usuarioCargarInicioSesion(usuarioApiResponse) {
   console.log(usuarioApiResponse);
   let isValidated = usuarioApiResponse != 0 ? true : false;
   if (isValidated) {
-    let mensaje = `Bienvenido ${usuarioApiResponse.username}`; // crear en localstorage el cargo
+    mostrarMensaje(`Bienvenido ${usuarioApiResponse.username}`); // crear en localstorage el cargo
     let tipoUsuario = usuarioApiResponse.cargo;
 
     if (tipoUsuario == 3) {
-      return console.log('es un cliente no tiene permisos para iniciar sesion');
+      return mostrarMensaje(
+        'es un cliente no tiene permisos para iniciar sesion'
+      );
     }
 
     if (tipoUsuario != 1) {
@@ -169,9 +179,9 @@ function registrarUsuarioConfirmar(usuarioApiResponse) {
 function actualizarUsuarioConfirmar(usuarioApiResponse) {
   let usuarioActualizado = usuarioApiResponse != 0 ? true : false;
   if (usuarioActualizado) {
-    console.log('usuario actualizado con exito');
+    mostrarMensaje('usuario actualizado con exito');
   } else {
-    console.log('el usuario no pudo ser actualizado');
+    mostrarMensaje('el usuario no pudo ser actualizado');
   }
 }
 
@@ -183,54 +193,60 @@ function actualizarSeccionActual(sectionAntes, sectionDespues) {
 function crearCategoriaConfirmar(usuarioApiResponse) {
   let categoriaCreada = usuarioApiResponse != 0 ? true : false;
   if (categoriaCreada) {
-    console.log('categoria creada con exito');
+    mostrarMensaje('Categoria Creada con Exito');
+    crear_categoria_inputs[0].parentElement.parentElement.reset();
   } else {
-    console.log('Categoria no pudo ser creada');
+    mostrarMensaje('Categoria no pudo ser creada');
   }
 }
 
 function ActualizarCategoriaConfirmar(categoriaApiResponse) {
   let categoriaActualizada = categoriaApiResponse != 0 ? true : false;
   if (categoriaActualizada) {
-    console.log('categoria actualizada con exito');
+    mostrarMensaje('categoria actualizada con exito');
+    document.getElementById('form_editar_categoria').reset();
   } else {
-    console.log('categoria no ha sido actualizada');
+    mostrarMensaje('categoria no ha sido actualizada');
   }
 }
 
 function actualizarChatConfirmar(chatApiResponse) {
   let chatActualizado = chatApiResponse != 0 ? true : false;
   if (chatActualizado) {
-    console.log('chat actualizado con exito');
+    mostrarMensaje('chat actualizado con exito');
+    document.getElementById('form_editar_palabra').reset();
   } else {
-    console.log('no se puedo actualizar el chat');
+    mostrarMensaje('no se puedo actualizar el chat');
   }
 }
 
 function crearChatConfirmar(chatApiResponse) {
   let chatCreado = chatApiResponse != 0 ? true : false;
   if (chatCreado) {
-    console.log('El chat ha sido creado con exito');
+    mostrarMensaje('El chat ha sido creado con exito');
+    document.getElementById('form_crear_palabra').reset();
   } else {
-    console.log('el chat no se ha podido crear');
+    mostrarMensaje('el chat no se ha podido crear');
   }
 }
 
 function actualizarProductoConfirmar(productoApiResponse) {
   let productoActualizado = productoApiResponse != 0 ? true : false;
   if (productoActualizado) {
-    console.log('producto actualizado con exito');
+    mostrarMensaje('producto actualizado con exito');
+    document.getElementById('form_crear_palabra').reset();
   } else {
-    console.log('el producto no ha sido actualizado');
+    mostrarMensaje('el producto no ha sido actualizado');
   }
 }
 
 function crearProductoConfirmar(productoApiResponse) {
   let productoCreado = productoApiResponse != 0 ? true : false;
   if (productoCreado) {
-    console.log('producto crado con exito');
+    mostrarMensaje('producto crado con exito');
+    document.getElementById('form_crear_producto').reset();
   } else {
-    console.log('hubo un problema al crear el producto');
+    mostrarMensaje('hubo un problema al crear el producto');
   }
 }
 
@@ -240,21 +256,3 @@ function ocultarOpcionesAdmin() {
     cambiarDisplay(opcionAdmin, disp.none);
   });
 }
-
-const divEjemplo = document.getElementById('ejemplo');
-
-const botonagregarContenido = document.getElementById('agregarContenido');
-
-function getHtml() {
-  fetch('http://127.0.0.1:5500/pages/ejemplo.html')
-    .then((response) => response.text())
-    .then((data) => {
-      console.log(data);
-      divEjemplo.innerHTML = data;
-    });
-}
-
-botonagregarContenido.addEventListener('click', function (event) {
-  event.preventDefault();
-  getHtml();
-});

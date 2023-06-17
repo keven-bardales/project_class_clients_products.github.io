@@ -8,9 +8,13 @@
     <title>Dashboard</title>
   </head>
   <body>
-    <div id="ejemplo">
-      <button id="agregarContenido">Agrega Contenido</button>
-    </div>
+    <dialog id="mensajeUsuario">
+      <p></p>
+      <form method="dialog">
+        <button>Cerrar</button>
+      </form>
+    </dialog>
+
     <section id="inicioSesionAdmin">
       <div id="formInicioSesionContenedor">
         <h2>Iniciar Sesion</h2>
@@ -34,7 +38,7 @@
     </section>
     <section id="pagina_admin">
       <div id="registrarUsuario" class="opcionAdmin">Registrar un Usuario</div>
-      <div id="editarUsuario">Editar Usuario</div>
+      <div id="editarUsuario" class="opcionAdmin">Editar Usuario</div>
       <div id="crearCategorias">Crear Categoria</div>
       <div id="editarCategorias">Editar Categoria</div>
       <div id="crearProductos">Crear Productos</div>

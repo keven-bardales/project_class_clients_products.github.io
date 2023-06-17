@@ -92,7 +92,7 @@ function validarUsuario(credenciales) {
         usuarioCargarInicioSesion(usuarioApiResponse);
       })
       .catch((error) => {
-        console.log(error);
+        mostrarMensaje('Usuario no existe');
         console.log(error + ' usuario no existe promesa fallida');
       })
   );

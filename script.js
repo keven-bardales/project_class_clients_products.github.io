@@ -68,7 +68,6 @@ const botonesAtras = document.querySelectorAll('.botonAtras');
 
 botonesAtras.forEach((boton) => {
   boton.addEventListener('click', function () {
-    console.log(sectionActual);
     cambiarDisplay(sectionActual, disp.none, sectionAtras, disp.block);
   });
 });
@@ -98,7 +97,6 @@ iniciarSesion.addEventListener('click', (event) => {
   validarUsuario(credenciales);
 });
 
-console.log(inputs_registrar_usuario);
 /**TERMINA opcion/pagina INICIAR SESION USUARIO */
 
 /**EMPIEZA opcion/pagina REGISTRAR USUARIO */
@@ -238,7 +236,6 @@ botonCrearProductos.addEventListener('click', function (event) {
   crear_producto_inputs.forEach((input, index) => {
     producto[keys[index]] = input.value;
   });
-  console.log(producto);
   crearProducto(producto);
 });
 /**TERMINA opcion/pagina CREAR PRODUCTOS */
@@ -335,20 +332,3 @@ boton_editar_chat.addEventListener('click', (event) => {
   chat = obtenerValoresDeInputs(chat, editar_chat_inputs);
   actualizarChat(chat);
 });
-
-/**TERMINA opcion/pagina EDITAR PALABRAS */
-
-//https://apipw1.myferby.com/ws.php?tk=t308218823&op=usuarios
-
-//PROBANDO ASYNC AWIT
-
-/* async function getData() {
-  const datos = await llamadoApi(usuariosFunc.listaUsuarios()); // https://apipw1.myferby.com/ws.php?tk=t308218823&op=usuarios es lo mismo
-  console.log(datos);
-  console.log('hola 1');
-  const dataJson = await datos.json();
-  console.log(dataJson);
-  console.log('hola');
-}
-
-getData(); */
