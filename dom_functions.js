@@ -135,14 +135,15 @@ function usuarioCargarInicioSesion(usuarioApiResponse) {
     let tipoUsuario = usuarioApiResponse.cargo;
 
     if (tipoUsuario == 3) {
-      return mostrarMensaje(
-        'es un cliente no tiene permisos para iniciar sesion'
-      );
+      mostrarMensaje('es un cliente no tiene permisos para iniciar sesion');
+      return;
     }
 
+    console.log(tipoUsuario);
     if (tipoUsuario != 1) {
       ocultarOpcionesAdmin();
     }
+    document.getElementById('form_sesion_admin').reset();
     cambiarDisplay(inicioSesionAdmin, disp.none, pagina_admin, disp.block);
 
     actualizarSeccionActual(inicioSesionAdmin, pagina_admin);
@@ -164,6 +165,7 @@ function registrarUsuarioConfirmar(usuarioApiResponse) {
   let usuarioNoExiste = usuarioApiResponse != 0 ? true : false;
   if (usuarioNoExiste) {
     //El usuario no existe por entonces fue creado
+    mostrarMensaje('Usuario creado con exito' + usuarioApiResponse);
     console.log(usuarioApiResponse);
     form_registrar.reset();
   } else {
@@ -256,3 +258,10 @@ function ocultarOpcionesAdmin() {
     cambiarDisplay(opcionAdmin, disp.none);
   });
 }
+
+const terminarSesion = document.getElementById('terminarSesion');
+
+terminarSesion.addEventListener('click', () => {
+  document.getElementById('pagina_admin').style.display = 'none';
+  document.getElementById('inicioSesionAdmin').style.display = 'block';
+});
